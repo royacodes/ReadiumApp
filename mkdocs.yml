@@ -1,0 +1,71 @@
+site_name: Readium Kotlin
+
+# Meta tags (placed in header)
+site_description: Readium Mobile is a toolkit for ebooks, audiobooks and comics written in Swift & Kotlin.
+site_author: Readium Foundation
+site_url: https://github.com/readium/kotlin-toolkit
+
+# Repository (add link to repository on each page)
+repo_name: kotlin-toolkit
+repo_url: https://github.com/readium/kotlin-toolkit
+
+# Copyright (shown at the footer)
+copyright: 'Copyright &copy; 2022 Readium Foundation'
+
+# Material theme
+theme:
+  name: 'material'
+  #  favicon: favicon.svg
+  social:
+    - type: 'github'
+      link: 'https://github.com/readium/kotlin-toolkit'
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - meta
+  - def_list
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+
+# Dev server binding
+#dev_addr: 127.0.0.1:3001
+
+nav:
+  - Home: index.md
+  - Migration Guide: migration-guide.md
+  - User Guides:
+      - Navigator preferences: guides/navigator-preferences.md
+      - EPUB font families: guides/epub-fonts.md
+      - PDF support: guides/pdf.md
+      - Text-to-speech: guides/tts.md
+      - Extracting the content of a publication: guides/content.md
+  - API Reference:
+      - Shared: readium/shared/index.md
+      - Streamer: readium/streamer/index.md
+      - Navigator: readium/navigator/index.md
+      - OPDS: readium/opds/index.md
+      - LCP: readium/lcp/index.md
+      - Adapters:
+          - PDFium Document: readium/adapters/pdfium/pdfium-document/index.md
+          - PDFium Navigator: readium/adapters/pdfium/pdfium-navigator/index.md
+          - PSPDFKit Document: readium/adapters/pspdfkit/pspdfkit-document/index.md
+          - PSPDFKit Navigator: readium/adapters/pspdfkit/pspdfkit-navigator/index.md
+
+extra_css:
+  - readium_colors.css
+
+extra:
+  version:
+    provider: mike
+

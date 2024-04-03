@@ -1,0 +1,64 @@
+name: Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Build
+        run: ./gradlew clean build -x test -x ktlintMainSourceSetCheck
+      - name: Test
+        run: ./gradlew test --continue
+
+  lint-kt:
+    name: Lint Kotlin
+    runs-on: macos-latest
+    if: ${{ !github.event.pull_request.draft }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Lint
+        run: ./gradlew ktlintCheck
+
+  lint-js:
+    name: Lint JavaScript
+    runs-on: macos-latest
+    if: ${{ !github.event.pull_request.draft }}
+    defaults:
+      run:
+        working-directory: readium/navigator
+    env:
+      scripts: ${{ 'src/main/assets/_scripts' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn --cwd "$scripts" install --frozen-lockfile
+      - name: Lint
+        run: yarn --cwd "$scripts" run lint
+      - name: Check formatting
+        run: yarn --cwd "$scripts" run checkformat
+      # FIXME: This suddenly stopped working even though the toolchain versions seem identical.
+      # - name: Check if bundled scripts are up-to-date
+      #   run: |
+      #       make scripts
+      #       git diff --exit-code --name-only src/main/assets/readium/scripts/*.js
